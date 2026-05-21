@@ -1,16 +1,48 @@
-﻿import React from 'react';
-import Header from '../components/Header';
-// Import HeroSection si tu l'as créé, sinon commente cette ligne
-import HeroSection from '../sections/HeroSection';
+import { useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Header from "../components/Header";
+import CustomCursor from "../components/CustomCursor";
+import { useLenis } from "../hooks/useLenis";
+import Hero from "../sections/Hero";
+import About from "../sections/About";
+import Ecosystem from "../sections/Ecosystem";
+import Footer from "../sections/Footer";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
+  useLenis();
+
+  useEffect(() => {
+    const context = gsap.context(() => {
+      gsap.utils.toArray("[data-parallax]").forEach((element) => {
+        const depth = Number(element.getAttribute("data-parallax")) || 80;
+        gsap.to(element, {
+          y: depth * -1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: element,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      });
+    });
+
+    return () => context.revert();
+  }, []);
+
   return (
-    <main className="min-h-screen bg-[#050505] text-white overflow-hidden font-sans antialiased">
+    <main className="min-h-screen overflow-hidden bg-[#050505] text-white">
+      <CustomCursor />
+      <div className="grain" aria-hidden="true" />
       <Header />
-      { 
-        <HeroSection /> 
-       /* Décommente cette ligne une fois que tu as créé HeroSection.jsx
-      */}
+      <Hero />
+      <About />
+      <Ecosystem />
+      <Footer />
     </main>
   );
 };

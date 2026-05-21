@@ -1,13 +1,7 @@
-﻿import React from 'react';
-import Home from './pages/Home';
-import Header from './components/Header';
-import './index.css'; // S'assure que Tailwind est bien chargé
+import Home from "./pages/Home";
 
 function App() {
-  return (
-    <Home />
-
-  );
+  return <Home />;
 }
 
 export default App;
