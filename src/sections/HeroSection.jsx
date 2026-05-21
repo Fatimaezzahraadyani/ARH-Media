@@ -1,18 +1,9 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Galaxy from '../components/Galaxy';
-import {
-  fadeInUp,
-  staggerContainer,
-  heroTitle,
-  heroWord,
-  ctaButton,
-} from '../animations/variants';
 
 /**
  * HeroSection - Section principale ultra-premium cinématique
- * Intègre Galaxy, animations Framer Motion et glassmorphism
- * Architecture Z-index optimisée pour superposition parfaite
+ * Animations Framer Motion et glassmorphism
  */
 const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -68,46 +59,103 @@ const HeroSection = () => {
       ' '
     );
 
+  // Variantes d'animation
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+        duration: 0.8,
+      },
+    },
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  };
+
+  const heroTitle = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const heroWord = {
+    hidden: {
+      opacity: 0,
+      y: 40,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  };
+
+  const ctaButton = {
+    rest: {
+      scale: 1,
+      boxShadow: '0 0 20px rgba(0, 217, 255, 0.1)',
+    },
+    hover: {
+      scale: 1.05,
+      boxShadow: '0 0 40px rgba(0, 217, 255, 0.4)',
+      transition: {
+        duration: 0.3,
+        ease: 'easeOut',
+      },
+    },
+    tap: {
+      scale: 0.98,
+      transition: {
+        duration: 0.1,
+      },
+    },
+  };
+
   return (
     <section className="relative w-full h-screen overflow-hidden bg-[#050505] flex items-center justify-center">
       {/* ============================================================
-          CALQUE 1 (z-0) : Arrière-plan Galaxy animé
+          CALQUE 1 (z-0) : Arrière-plan dégradé subtil
           ============================================================ */}
-      <div className="absolute inset-0 z-0 w-full h-full">
-        <Galaxy
-          mouseRepulsion
-          mouseInteraction
-          density={1}
-          glowIntensity={0.3}
-          saturation={0}
-          hueShift={140}
-          twinkleIntensity={0.3}
-          rotationSpeed={0.1}
-          repulsionStrength={2}
-          autoCenterRepulsion={0}
-          starSpeed={0.5}
-          speed={1}
-        />
-      </div>
+      <div className="absolute inset-0 z-0 w-full h-full bg-gradient-to-b from-transparent via-[#050505]/40 to-[#050505]" />
 
       {/* ============================================================
           CALQUE 2 (z-10) : Overlay gradient radial subtil
-          Assure la lisibilité du texte par-dessus la galaxie
+          Assure la lisibilité du texte
           ============================================================ */}
-      <div className="absolute inset-0 z-10 w-full h-full pointer-events-none bg-gradient-to-b from-transparent via-[#050505]/40 to-[#050505]" />
+      <div className="absolute inset-0 z-10 w-full h-full pointer-events-none bg-gradient-radial from-transparent via-[#050505]/20 to-[#050505]" />
 
       {/* ============================================================
           CALQUE 3 (z-20) : Contenu principal avec animations
           ============================================================ */}
       <motion.div
-        className="relative z-20 container mx-auto px-6 text-center flex flex-col items-center"
+        className="relative z-20 container mx-auto px-6 text-center flex flex-col items-center max-w-4xl"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
       >
         {/* Titre principal avec animation mot par mot */}
         <motion.h1
-          className="text-6xl md:text-7xl lg:text-8xl font-black font-display tracking-tight text-white leading-tight drop-shadow-[0_0_30px_rgba(0,217,255,0.3)]"
+          className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white leading-tight drop-shadow-[0_0_30px_rgba(0,217,255,0.3)]"
           variants={heroTitle}
           initial="hidden"
           animate="visible"
